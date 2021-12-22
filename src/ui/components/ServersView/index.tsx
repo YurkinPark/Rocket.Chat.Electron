@@ -11,9 +11,9 @@ export const ServersView: FC = () => {
     <ReparentingContainer>
       {servers.map((server) => (
         <ServerPane
-          key={server.url}
+          key={server.clean_url}
           lastPath={server.lastPath}
-          serverUrl={server.url}
+          serverUrl={server.clean_url}
           isSelected={server.selected}
           isFailed={server.failed ?? false}
         />

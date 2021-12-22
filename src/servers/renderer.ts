@@ -20,12 +20,12 @@ export const fetchInfo = async (
   if (username && password) {
     headers.append('Authorization', `Basic ${btoa(`${username}:${password}`)}`);
   }
-
-  const homeResponse = await fetch(url.href, { headers });
+  const homeResponse = await fetch(url.origin + url.pathname, { headers });
 
   if (!homeResponse.ok) {
     throw new Error(homeResponse.statusText);
   }
+  console.log(homeResponse);
 
   const endpoint = new URL('api/info', homeResponse.url);
 
@@ -43,8 +43,10 @@ export const fetchInfo = async (
   if (!responseBody.success) {
     throw new Error();
   }
-
-  return [new URL('..', apiInfoResponse.url).href, responseBody.version];
+  const apiUrl = new URL('..', apiInfoResponse.url);
+  apiUrl.username = username;
+  apiUrl.password = password;
+  return [apiUrl.href, responseBody.version];
 };
 
 type RootWindowIconParams = {
